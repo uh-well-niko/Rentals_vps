@@ -1,0 +1,32 @@
+{% extends 'vps_app/base.html' %}
+{% load static %}
+
+{% block title %}Список услуг{% endblock %}
+
+{% block content %}
+<h2>Список услуг</h2>
+
+<form method="get" action="{% url 'service_list' %}">
+    <input type="text" name="query" value="{{ query }}" placeholder="Поиск по услугам" autocomplete="off">
+    <button type="submit">Найти</button>
+    <a href="{% url 'service_list' %}">
+        <button type="button">Очистить</button>
+    </a>
+</form>
+
+<!-- <hr> -->
+
+<div class="services-container">
+    {% for service in services %}
+        <div class="service-card">
+            <img src="{% static service.image %}" alt="{{ service.name }}" width="150">
+            <h3><a href="{% url 'service_detail' service.id %}">{{ service.name }}</a></h3>
+            <p>{{ service.mini_description }}</p>
+            <p class="price">От {{ service.price }}₽/мес.</p>
+        </div>
+    {% empty %}
+        <p>Ничего не найдено по запросу.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

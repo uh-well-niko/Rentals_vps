@@ -1,0 +1,23 @@
+{% extends 'vps_app/base.html' %}
+
+{% block title %}{{ service.name }}{% endblock %}
+
+{% block content %}
+<div class="service-detail">
+    <h2>{{ service.name }}</h2>
+    <p>{{ service.description }}</p>
+    <p>Тарифы:</p>
+    <ul>
+        {% for rate in service.rates.all %}
+            <li>{{ rate.name.title }} - {{ rate.price }}₽</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'service_list' %}">Вернуться к списку услуг</a>
+
+    <form method="post" action="{% url 'service_delete' service.id %}">
+        {% csrf_token %}
+        <button type="submit" class="delete-button">Удалить</button>
+    </form>
+
+</div>
+{% endblock %}
